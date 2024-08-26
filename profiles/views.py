@@ -7,9 +7,6 @@ from profiles.forms import RegistrationForm
 from django.contrib.auth import login, logout, authenticate
 
 # Writing Fies as Function View
-def Home(request):
-    return render(request, 'account/home.html')
-
 def Register(request):
     if request.user.is_authenticated:
         return HttpResponse('You are authenticated')

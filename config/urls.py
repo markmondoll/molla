@@ -8,7 +8,7 @@ from profiles import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('profiles/', include('profiles.urls')),
-    path('', include('products.urls')),
+    path('', include('store.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
