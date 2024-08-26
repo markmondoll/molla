@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+
+{% block content %}
+
+{% include '_slider.html' %}
+
+<!-- Featured Categories Begin -->
+<section class="latest-products spad">
+    <div class="container">
+        <div class="product-filter">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>Featured Categories</h2>
+                    </div>
+                    <ul class="product-controls">
+                        <li data-filter="*">All</li>
+                        {% for category in featured_categories %}
+                        <li data-filter=".{{category.slug}}">{{category.title|title}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="product-list">
+            {% for category in featured_categories %}
+            {% for product in category.products.all %}
+            <div class="col-lg-3 col-sm-6 mix {{category.slug}}" style="cursor: pointer;" onclick="window.location.href = `{% url 'product:product_details' product.slug %}`">
+                <div class="single-product-item">
+                    <figure>
+                        <img style="height: 300px;" src="{{product.thumbnail}}" alt="">
+                        <div class="p-status">new</div>
+                    </figure>
+                    <div class="product-text">
+                        <h6>{{product.title|truncatewords:10}}</h6>
+                        <p>$ {{product.price}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Featured Categories End -->
+
+<!-- Featured Products Begin -->
+<section class="latest-products spad mt-3">
+    <div class="container">
+        <div class="product-filter">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-title">
+                        <h2>Featured Products</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="product-list">
+            {% for product in featured_products %}
+            <div class="col-lg-3 col-sm-6 mix" style="cursor: pointer;" onclick="window.location.href = `{% url 'product:product_details' product.slug %}`">
+                <div class="single-product-item">
+                    <figure>
+                        <img style="height: 300px;" src="{{product.thumbnail}}" alt="">
+                        <div class="p-status">new</div>
+                    </figure>
+                    <div class="product-text">
+                        <h6>{{product.title|truncatewords:10}}</h6>
+                        <p>$ {{product.price}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Featured Products End -->
+
+{% endblock content %}
