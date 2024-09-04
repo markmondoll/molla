@@ -1,12 +1,14 @@
 from django.db import models
+from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 class Category(models.Model):
     title = models.CharField(max_length=150, unique=True)
     slug = models.SlugField(unique=True, max_length=150)
     featured = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='category', blank=True, null=True)
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title
@@ -14,6 +16,11 @@ class Category(models.Model):
     class Meta:
         ordering = ['title']
         verbose_name_plural = 'Categories'
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 class Product(models.Model):
     title = models.CharField(max_length=250, unique=True)
@@ -35,3 +42,19 @@ class Product(models.Model):
     class Meta:
         ordering = ['-id']
 
+    def get_product_url(self):
+        return reverse('store:product-details', kwargs={'slug':self.slug})
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+
+class ProductImages(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='prodcut_gallery')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.product.title)
+    
