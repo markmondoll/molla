@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('profiles/', include('profiles.urls')),
     path('', include('store.urls')),
+    path('order/', include('order.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
