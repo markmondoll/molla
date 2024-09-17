@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-=ggb^cjo%yys5tvu&jzg$8a!mk9n2-@r$*toxu9n4m7lo)&s=z
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
@@ -90,3 +90,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Paypal Credentials
+PAYPAL_CLIENT_ID = "ASUfsEKqSTh63DkNESSHmBWAXyjl5x-ZC0jaycGPmuv7NnTW_-zxnlQaMrvB8a2q9A6hkA6iPAYVIg-m"
+PAYPAL_SECRET_ID = "EFajSNWgUors-UHNcHcuE4GpK_lh3umxYfWXe_WBcp2-Jf3v1ZknbEYgvL1iGaWK_ZnKuAyXmQev5W9l"
