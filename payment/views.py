@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 
@@ -30,7 +30,7 @@ class CheckoutTemplateView(TemplateView):
             'order_item': order_item,
             'order_total': order_total,
             'payment_method': payment_method,
-            'paypal_client_id': settings.PAYPAL_CLIENT_ID,
+            'paypal_client_id': settings.PAYPAL_CLIENT_ID
         }
         return render(request, 'payment/checkout.html', context)
 
@@ -65,14 +65,6 @@ class CheckoutTemplateView(TemplateView):
                     print('Order Submitted Successfully')
                     return redirect('store:index')
                 
-                # paypal payment process
-                if pay_method.payment_method =='PayPal':
-                    return redirect(reverse('payment:checkout', kwargs={'pay_meth': pay_method.payment_method}))
-                    # return redirect(f"{reverse('payment:checkout')}?pay_meth={pay_method.payment_method}")
-                    # return redirect(reverse('payment:checkout') )
-                
-
-
 def paypalPaymentMethod(request):
     data = json.loads(request.body)
     order_id = data['order_id']

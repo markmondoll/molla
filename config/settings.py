@@ -94,3 +94,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Paypal Credentials
 PAYPAL_CLIENT_ID = "ASUfsEKqSTh63DkNESSHmBWAXyjl5x-ZC0jaycGPmuv7NnTW_-zxnlQaMrvB8a2q9A6hkA6iPAYVIg-m"
 PAYPAL_SECRET_ID = "EFajSNWgUors-UHNcHcuE4GpK_lh3umxYfWXe_WBcp2-Jf3v1ZknbEYgvL1iGaWK_ZnKuAyXmQev5W9l"
+
+# SSLcommerz Credentials
+STORE_ID = "mfweb66e95035d4456"
+STORE_PASS = "mfweb66e95035d4456@ssl"
