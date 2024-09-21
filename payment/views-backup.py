@@ -32,7 +32,6 @@ class CheckoutTemplateView(TemplateView):
         order_qs = Order.objects.filter(user=request.user, ordered=False)
         order_item = order_qs[0].order_items.all()
         order_total = order_qs[0].get_totals()
-
         context = {
             'billing_address': form,
             'order_item': order_item,
@@ -64,7 +63,7 @@ class CheckoutTemplateView(TemplateView):
                     order = order_qs[0]
                     order.ordered = True
                     order.order_id = order.id
-                    order.payment_id = order.id
+                    order.payment_id = pay_method.payment_method
                     order.save()
                     cart_items = Cart.objects.filter(user=request.user, purchased=False)
                     for item in cart_items:
@@ -74,9 +73,7 @@ class CheckoutTemplateView(TemplateView):
                     return redirect('store:index')
                 
                 # PayPal payment process
-                #if pay_method.payment_method =='PayPal':
-                    #return redirect(reverse('payment:checkout') + "?pay_meth=" +str(pay_method.payment_method))
-                
+
                 # SSLcommerz payment process
                 if pay_method.payment_method == 'SSLcommerz':
                     store_id = settings.STORE_ID
@@ -142,7 +139,6 @@ def paypalPaymentMethod(request):
             order.ordered = True
             order.order_id = order_id
             order.payment_id = payment_id
-            order.payment_method = 'PayPal'
             order.save()
             cart_items = Cart.objects.filter(user=request.user, purchased=False)
             for item in cart_items:

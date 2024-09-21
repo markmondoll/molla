@@ -90,7 +90,7 @@
                                     <br>
                                 </div><!-- End .accordion -->
 
-                                <button id="preced-to-checkout" type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
                                     <span class="btn-text">Place Order</span>
                                     <span class="btn-hover-text">Proceed to Checkout</span>
                                 </button>
@@ -152,7 +152,7 @@
                         body: JSON.stringify({
                             'order_id': details.id,
                             'payment_id': details.payer.payer_id,
-                            'status': details.status,
+                            'status': details.status
                         }),
                     })
                 }
@@ -165,15 +165,12 @@
         document.addEventListener('DOMContentLoaded', function () {
         const paymentMethodSelect = document.querySelector('select[name="payment_method"]');
         const paypalButtonContainer = document.getElementById('paypal-button-container');
-        const procedToCheckout = document.getElementById('preced-to-checkout');
 
         paymentMethodSelect.addEventListener('change', function () {
             if (this.value === 'PayPal') {
                 paypalButtonContainer.style.display = 'block';
-                procedToCheckout.style.display = 'none';
             } else {
                 paypalButtonContainer.style.display = 'none';
-                procedToCheckout.style.display = 'block';
             }
         });
 
