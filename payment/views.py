@@ -17,8 +17,7 @@ from django.conf import settings
 import json
 
 # SSLcommerz
-# from sslcommerz_python.payment import SSLCSession
-#from sslcommerz_lib import SSLCOMMERZ
+from sslcommerz_python.payment import SSLCSession
 
 from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
@@ -80,8 +79,8 @@ class CheckoutTemplateView(TemplateView):
                 # SSLcommerz payment process
                 if pay_method.payment_method == 'SSLcommerz':
                     store_id = settings.STORE_ID
-                    store_pas = settings.STORE_PASS
-                    mypayment = SSLCSession(sslc_is_sandbox=True, sslc_store_id='store_id', sslc_store_pass='store_pass')
+                    store_pass = settings.STORE_PASS
+                    mypayment = SSLCSession(sslc_is_sandbox=True, sslc_store_id=store_id, sslc_store_pass=store_pass)
 
                     status_url = request.build_absolute_uri(reverse('payment:status'))
                     mypayment.set_urls(success_url=status_url, fail_url=status_url, cancel_url=status_url, ipn_url=status_url)
@@ -93,11 +92,12 @@ class CheckoutTemplateView(TemplateView):
                     mypayment.set_product_integration(total_amount=Decimal(order_total), currency='BDT', product_category='clothing', product_name=order_items, num_of_item=order_item_count, shipping_method='Courier', product_profile='None')
 
                     current_user = request.user
-                    mypayment.set_customer_info(name=current_user.profile.full_name, email=current_user.email, address1=current_user.profile.address, address2=current_user.profile.address, city=current_user.profile.city, postcode='current_user.profile.zip_code', country=current_user.profile.country, phone=current_user.profile.phone)
+                    mypayment.set_customer_info(name=current_user.profile.full_name, email=current_user.email, address1=current_user.profile.address, address2=current_user.profile.address, city=current_user.profile.city, postcode=current_user.profile.zip_code, country=current_user.profile.country, phone=current_user.profile.phone)
                     mypayment.set_shipping_info(shipping_to=current_user.profile.full_name, address=current_user.profile.address, city=current_user.profile.city, postcode=current_user.profile.zip_code, country=current_user.profile.country)
 
                     response_data = mypayment.init_payment()
                     print('==============================================================')
+                    print(response_data)
                     return redirect(response_data['GatewayPageURL'])
                     print('==================================================================')
                 return redirect('payment:checkout')
@@ -121,6 +121,7 @@ def sslc_complete(request, val_id, tran_id):
     order.ordered = True
     order.order_id = val_id
     order.payment_id = tran_id
+    order.payment_method = 'SSLcommerz'
     order.save()
     cart_items = Cart.objects.filter(user=request.user, purchased=False)
     for item in cart_items:
