@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from profiles.forms import RegistrationForm
+from profiles.forms import RegistrationForm, ProfileForm
 
 # Authentication Function
 from django.contrib.auth.decorators import login_required
@@ -54,9 +54,13 @@ class ProfileView(TemplateView):
         billing_address = BillingAddress.objects.get(user=request.user)
         billing_address_form = BillingAddressForm(instance=billing_address)
 
+        profile_obj = Profile.objects.get(user=request.user)
+        profile_form = ProfileForm(instance=profile_obj)
+
         context = {
             'orders': orders,
             'billing_address': billing_address_form,
+            'profile_form': profile_form,
         }
         return render(request, 'account/profile.html', context)
 
@@ -64,8 +68,11 @@ class ProfileView(TemplateView):
         if request.method == 'POST' or request.method =='post':
             billing_address = BillingAddress.objects.get(user=request.user)
             billing_address_form = BillingAddressForm(request.POST, instance=billing_address)
-            if billing_address_form.is_valid():
+            profile_obj = Profile.objects.get(user=request.user)
+            profile_form = ProfileForm(request.POST, instance=profile_obj)
+            if billing_address_form.is_valid() or profile_form.is_valid:
                 billing_address_form.save()
+                profile_form.save()
                 return redirect('profiles:profile')
 
 
