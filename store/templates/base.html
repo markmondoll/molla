@@ -13,14 +13,24 @@
     <title>{% block title %} {% endblock title %}</title>
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static  'assets/images/icons/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static  'assets/images/icons/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static  'assets/images/icons/favicon-16x16.png' %}">
+    {% for info in settings %}
+    {% if info.apple_touch_icon_png %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ info.apple_touch_icon_png.url }}">
+    {% endif %}
+    {% if info.favicon_png %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ info.favicon_png.url }}">
+    {% endif %}
+    {% if info.favicon_png %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ info.favicon_png.url }}">
+    {% endif %}
     <link rel="manifest" href="{% static  'assets/images/icons/site.html' %}">
     <link rel="mask-icon" href="{% static  'assets/images/icons/safari-pinned-tab.svg' %}" color="#666666">
-    <link rel="shortcut icon" href="{% static  'assets/images/icons/favicon.ico' %}">
+    {% if info.logo %}
+        <link rel="shortcut icon" href="{{ info.favicon_ico.url }}">
+    {% endif %}
     <meta name="apple-mobile-web-app-title" content="Molla">
     <meta name="application-name" content="Molla">
+    {%  endfor%}
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="msapplication-config" content="{% static  'assets/images/icons/browserconfig.xml' %}">
     <meta name="theme-color" content="#ffffff">

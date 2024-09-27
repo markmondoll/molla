@@ -1,5 +1,6 @@
 {% load category %}
 {% load cart_product %}
+
 {% load static %}
 
 <header class="header header-intro-clearance header-4">
@@ -55,8 +56,12 @@
                     <i class="icon-bars"></i>
                 </button>
                 
-                <a href="index.html" class="logo">
-                    <img src="{% static 'assets/images/demos/demo-4/logo.png' %}" alt="Molla Logo" width="105" height="25">
+                <a href="{% url 'store:index' %}" class="logo">
+                    {% for info in settings %}
+                        {% if info.logo %}
+                            <img src="{{info.logo.url}}" alt="{{info.website_title}}" width="105" height="25">
+                        {% endif %}
+                    {%  endfor%}
                 </a>
             </div><!-- End .header-left -->
 

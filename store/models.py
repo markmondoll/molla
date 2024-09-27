@@ -1,6 +1,10 @@
 from django.db import models
 from django.urls import reverse
-from django.template.defaultfilters import slugify
+from django.template.defaultfilters import default, slugify
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class Category(models.Model):
     title = models.CharField(max_length=150, unique=True)
