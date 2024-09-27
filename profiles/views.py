@@ -4,7 +4,15 @@ from django.http import HttpResponse
 from profiles.forms import RegistrationForm
 
 # Authentication Function
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+
+from order.models import Cart, Order
+from payment.models import BillingAddress
+from payment.forms import BillingAddressForm
+from profiles.models import Profile
+
+from django.views.generic import TemplateView
 
 # Writing Fies as Function View
 def Register(request):
@@ -26,7 +34,7 @@ def CustomerLogin(request):
     if request.user.is_authenticated:
         return HttpResponse('You are logged in!')
     else:
-        if request.method == 'post' or request.method == 'POST':
+        if request.method == 'POST' or request.method == 'post':
             username = request.POST.get('username')
             password = request.POST.get('password')
             customer = authenticate(request, username=username, password=password)
@@ -37,3 +45,27 @@ def CustomerLogin(request):
                 return HttpResponse('404')
             
     return render(request, 'account/login.html')
+
+
+# Customers profile
+class ProfileView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        orders = Order.objects.filter(user=request.user, ordered=True)
+        billing_address = BillingAddress.objects.get(user=request.user)
+        billing_address_form = BillingAddressForm(instance=billing_address)
+
+        context = {
+            'orders': orders,
+            'billing_address': billing_address_form,
+        }
+        return render(request, 'account/profile.html', context)
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST' or request.method =='post':
+            billing_address = BillingAddress.objects.get(user=request.user)
+            billing_address_form = BillingAddressForm(request.POST, instance=billing_address)
+            if billing_address_form.is_valid():
+                billing_address_form.save()
+                return redirect('profiles:profile')
+
+
