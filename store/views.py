@@ -1,20 +1,32 @@
 from typing import Any
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 
 # product models
 from store.models import Category, Product, ProductImages, Banner
 
-class HomeListView(ListView):
-    model = Product
-    template_name = 'store/index.html' 
-    context_object_name = 'products'
+class HomeListView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.all().order_by('-id')
+        banners = Banner.objects.filter(is_active=True).order_by('-id')[0:5]
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['banners'] = Banner.objects.filter(is_active=True).order_by('-id')[0:5]
-        return context
-    
+        context = {
+            'products': products,
+            'banners': banners
+        }
+        return render(request, 'store/index.html', context)
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'post' or request.method == 'POST':
+            search = request.POST.get('search')
+            products = Product.objects.filter(title__icontains=search).order_by('-id')
+
+            context = {
+                'products': products
+            }
+            return render(request, 'store/index.html', context)
+
+
 # Class Based View
 class ProductDetailView(DetailView):
     model = Product
