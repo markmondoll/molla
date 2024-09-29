@@ -10,14 +10,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 INSTALLED_APPS = [
-    'crispy_forms',
-    'crispy_bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'profiles',
     'store',
     'order',
@@ -102,4 +102,4 @@ STORE_ID = "mfweb66e95035d4456"
 STORE_PASS = "mfweb66e95035d4456@ssl"
 
 # Custom User Manager
-#AUTH_USER_MODEL = 'profiles.User'
+AUTH_USER_MODEL = 'profiles.User'
