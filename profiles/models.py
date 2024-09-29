@@ -70,6 +70,13 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
     
+    def save(self, *args, **kwargs):
+        user_email = self.user.email
+        split_username = user_email.index('@')
+        get_username = user_email[:split_username]
+        self.username = get_username
+        return super().save(*args, **kwargs)
+    
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
