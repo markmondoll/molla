@@ -58,7 +58,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    username = models.CharField(max_length=100, blank=False, null=False)
     full_name = models.CharField(max_length=100, blank=True, null=True)
     address = models.TextField(max_length=300, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
@@ -68,13 +67,13 @@ class Profile(models.Model):
     date_joined = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username}'s Profile"
+        return f"{self.user.user_name}'s Profile"
     
     def save(self, *args, **kwargs):
         user_email = self.user.email
         split_username = user_email.index('@')
         get_username = user_email[:split_username]
-        self.username = get_username
+        self.full_name = get_username
         return super().save(*args, **kwargs)
     
 @receiver(post_save, sender=User)
