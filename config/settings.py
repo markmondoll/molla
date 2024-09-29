@@ -100,3 +100,6 @@ PAYPAL_SECRET_ID = "EFajSNWgUors-UHNcHcuE4GpK_lh3umxYfWXe_WBcp2-Jf3v1ZknbEYgvL1i
 # SSLcommerz Credentials
 STORE_ID = "mfweb66e95035d4456"
 STORE_PASS = "mfweb66e95035d4456@ssl"
+
+# Custom User Manager
+#AUTH_USER_MODEL = 'profiles.User'
