@@ -8,6 +8,8 @@ from coupon.models import Coupon
 
 from django.utils import timezone
 
+from notification.notifications import SendNotification
+
 # Function view
 def add_to_cart(request, pk):
     if request.user.is_authenticated:
@@ -27,6 +29,8 @@ def add_to_cart(request, pk):
                 order_item[0].size = size
                 order_item[0].color = color
                 order_item[0].save()
+                message = f"Quantity updated"
+                SendNotification(request.user, message)
                 return redirect('store:index')
             else:
                 size = request.POST.get('size')
@@ -34,6 +38,8 @@ def add_to_cart(request, pk):
                 order_item[0].size = size
                 order_item[0].color = color
                 order.order_items.add(order_item[0])
+                message = f"Product added to your cart"
+                SendNotification(request.user, message)
                 return redirect ('store:index')
         else:
             order = Order(user=request.user)
