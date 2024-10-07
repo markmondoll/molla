@@ -14,4 +14,4 @@ class ProfileForm(ModelForm):
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email', 'user_name', 'password1', 'password2')
+        fields = ('email', 'username', 'password1', 'password2')

@@ -7,8 +7,8 @@ User = get_user_model()
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    # Use 'user_name' instead of 'username'
-    list_display = ['email', 'user_name', 'is_staff', 'is_active']
+    # Use 'username' instead of 'username'
+    list_display = ['email', 'username', 'is_staff', 'is_active']
 
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Profile)

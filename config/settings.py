@@ -103,3 +103,4 @@ STORE_PASS = "mfweb66e95035d4456@ssl"
 
 # Custom User Manager
 AUTH_USER_MODEL = 'profiles.User'
+AUTHENTICATION_BACKENDS = ['profiles.backend.UsernameOrEmail']

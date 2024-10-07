@@ -6,17 +6,17 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
-class CustomManager(BaseUserManager):
-    def create_user(self, email, user_name, password, **extra_fields):
+class UserManager(BaseUserManager):
+    def create_user(self, email, username, password, **extra_fields):
         if not email:
             raise ValueError('Email address is required')
         email = self.normalize_email(email)
-        user = self.model(email=email, user_name=user_name, **extra_fields)
-        user.set_password(make_password(password))
+        user = self.model(email=email, username=username, **extra_fields)
+        user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, user_name, password, **extra_fields):
+    def create_superuser(self, email, username, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -32,7 +32,7 @@ class CustomManager(BaseUserManager):
         if extra_fields.get('is_verify') is not True:
             raise ValueError('superuser must be is_verify=true')
         
-        return self.create_user(email, user_name, password, **extra_fields)
+        return self.create_user(email, username, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
     USER_TYPE  = (
@@ -40,8 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('developer', 'developer')
         )
     email = models.EmailField(unique=True)
-    user_name = models.CharField(max_length=100, unique=True)
-    REQUIRED_FIELDS = ['user_name']
+    username = models.CharField(max_length=100, unique=True)
+    REQUIRED_FIELDS = ['username']
     USERNAME_FIELD = 'email'
     user_type = models.CharField(max_length=100, choices=USER_TYPE, default=USER_TYPE[0])
     is_staff = models.BooleanField(default=False)
@@ -49,15 +49,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     is_verify = models.BooleanField(default=False)
 
-    objects = CustomManager()
+    objects = UserManager()
 
     def __str__(self):
         return str(self.email)
 
-    
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    username = models.CharField(max_length=100, blank=False, null=False)
     full_name = models.CharField(max_length=100, blank=True, null=True)
     address = models.TextField(max_length=300, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
@@ -67,7 +66,7 @@ class Profile(models.Model):
     date_joined = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.user_name}'s Profile"
+        return f"{self.user.username}'s Profile"
     
     def save(self, *args, **kwargs):
         user_email = self.user.email
