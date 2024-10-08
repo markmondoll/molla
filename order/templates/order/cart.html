@@ -29,9 +29,9 @@
 										<tr>
 											<th>Product</th>
 											<th>Size</th>
-											<th>Color</th>
+											<th>Weight</th>
 											<th>Price</th>
-											<th>Quantity</th>
+											<th>KG</th>
 											<th>Total</th>
 											<th></th>
 										</tr>
@@ -54,7 +54,7 @@
 												</div><!-- End .product -->
 											</td>
 											<td class="price-col">{{cart.size}}</td>
-											<td class="price-col">{{cart.color}}</td>
+											<td class="price-col">{{cart.weight}}</td>
 
 											<td class="price-col">
 											{% if cart.variation_single_price %}
@@ -91,9 +91,9 @@
 			            					<div class="input-group">
 												{% csrf_token %}
 												{{coupon_form}}
-				        						<div class="input-group-append">
-													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div><!-- .End .input-group-append -->
+											<div class="input-group-append">
+												<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
+											</div><!-- .End .input-group-append -->
 			        						</div><!-- End .input-group -->
 			            				</form>
 			            			</div><!-- End .cart-discount -->

@@ -97,14 +97,14 @@
                                 </div><!-- End .details-filter-row -->
                                 {% endif %}
 
-                                {% if item.variationvalue_set.colors %}
+                                {% if item.variationvalue_set.weights %}
                                 <div class="details-filter-row details-row-size">
-                                    <label for="color">Color:</label>
+                                    <label for="weight">weight:</label>
                                     <div class="select-custom">
-                                        <select name="color" id="size" class="form-control">
-                                            <option value="#" selected="selected">Select a color</option>
-                                            {% for item_variation in item.variationvalue_set.colors %}
-                                            <option name="color" value="{{item_variation.name}}">{{item_variation.name}}
+                                        <select name="weight" id="size" class="form-control">
+                                            <option value="#" selected="selected">Select a weight</option>
+                                            {% for item_variation in item.variationvalue_set.weights %}
+                                            <option name="weight" value="{{item_variation.name}}">{{item_variation.name}}
                                             </option>
                                             {% endfor %}
                                         </select>
@@ -113,7 +113,7 @@
                                 {% endif %}
 
                                 <div class="details-filter-row details-row-size">
-                                    <label for="qty">Qty:</label>
+                                    <label for="qty">KG:</label>
                                     <div class="product-details-quantity">
                                         <input name="quantity" type="number" id="qty" class="form-control" value="1"
                                             min="1" max="10" step="1" data-decimals="0" required>

@@ -10,7 +10,7 @@ class Cart(models.Model):
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     size = models.CharField(max_length=100, blank=True, null=True)
-    color = models.CharField(max_length=100, blank=True, null=True)
+    weight = models.CharField(max_length=100, blank=True, null=True)
     purchased = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -25,14 +25,14 @@ class Cart(models.Model):
     
     def variation_single_price(self):
         sizes = VariationValue.objects.filter(variation='size', product=self.item)
-        colors = VariationValue.objects.filter(variation='color', product=self.item)
+        weights = VariationValue.objects.filter(variation='weight', product=self.item)
         for size in sizes:
-            if colors.exists():
-                for color in colors:
-                    if color.name == self.color:
-                        color_price = color.price
+            if weights.exists():
+                for weight in weights:
+                    if weight.name == self.weight:
+                        weight_price = weight.price
                     if size.name == self.size:
-                        total = size.price + color_price
+                        total = size.price + weight_price
                         net_total = total
                         float_total = format(net_total, '0.2f')
                         return float_total
@@ -43,16 +43,16 @@ class Cart(models.Model):
                             return float_total
     def variation_total(self):
         sizes = VariationValue.objects.filter(variation='size', product=self.item)
-        colors = VariationValue.objects.filter(variation='color', product=self.item)
+        weights = VariationValue.objects.filter(variation='weight', product=self.item)
         for size in sizes:
-            if colors.exists():
-                for color in colors:
-                    if color.name == self.color:
-                        color_price = color.price
-                        color_quantity_price = color_price * self.quantity
+            if weights.exists():
+                for weight in weights:
+                    if weight.name == self.weight:
+                        weight_price = weight.price
+                        weight_quantity_price = weight_price * self.quantity
                     if size.name == self.size:
                         total = size.price * self.quantity
-                        net_total = total + color_quantity_price
+                        net_total = total + weight_quantity_price
                         float_total = format(net_total, '0.2f')
                         return float_total
                 else:

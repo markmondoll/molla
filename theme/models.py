@@ -6,7 +6,7 @@ User = get_user_model()
 class Setting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     website_title = models.CharField(max_length=30, null=True, blank=True)
-    slogan = models.CharField(max_length=50, null=True, blank=True)
+    slogan = models.CharField(max_length=200, null=True, blank=True)
     address_line1 = models.CharField(max_length=90, null=True, blank=True)
     address_line2 = models.CharField(max_length=90, null=True, blank=True)
     mobile = models.CharField(max_length=50, null=True, blank=True)

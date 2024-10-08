@@ -66,12 +66,12 @@ class VariationManager(models.Manager):
     def sizes(self):
         return super(VariationManager, self).filter(variation='size')
 
-    def colors(self):
-        return super(VariationManager, self).filter(variation='color')
+    def weights(self):
+        return super(VariationManager, self).filter(variation='weight')
 
 VARIATIONS_TYPE = (
     ('size', 'size'),
-    ('color', 'color'),
+    ('weight', 'weight'),
 )
 class VariationValue(models.Model):
     variation = models.CharField(max_length=100, choices=VARIATIONS_TYPE)
