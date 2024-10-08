@@ -1,6 +1,6 @@
 {% load category %}
 {% load cart_product %}
-
+{% load notification %}
 {% load static %}
 
 <header class="header header-intro-clearance header-4">
@@ -175,6 +175,33 @@
                         </div><!-- End .dropdown-cart-total -->
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .cart-dropdown -->
+
+<!-- Notification dropdown starts here -->
+                <div class="dropdown cart-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <div class="icon">
+                            <i class="icon-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </div>
+                        <p>Notification</p>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-cart-products">
+                            {% for notification in request.user|notifications %}
+                            <div class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="product.html">{{notification.message}}</a>
+                                    </h4>
+                                </div><!-- End .notification-details -->
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                            </div><!-- End .notification -->
+                            {% endfor %}
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .notification-dropdown -->
+
+                
             </div><!-- End .header-right -->
         </div><!-- End .container -->
     </div><!-- End .header-middle -->

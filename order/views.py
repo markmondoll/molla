@@ -8,7 +8,7 @@ from coupon.models import Coupon
 
 from django.utils import timezone
 
-from notification.notifications import SendNotification
+from notification.notification import SendNotification
 
 # Function view
 def add_to_cart(request, pk):
