@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('store.urls')),
     path('order/', include('order.urls')),
     path('payment/', include('payment.urls')),
+    path('notification/', include('notification.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
