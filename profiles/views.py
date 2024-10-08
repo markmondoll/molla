@@ -13,6 +13,9 @@ from payment.forms import BillingAddressForm
 from profiles.models import Profile
 
 from django.views.generic import TemplateView
+# logout view
+from django.contrib.auth.views import LogoutView
+from django.urls import reverse_lazy
 
 # Writing Fies as Function View
 def Register(request):
@@ -32,7 +35,7 @@ def Register(request):
 
 def CustomerLogin(request):
     if request.user.is_authenticated:
-        return HttpResponse('You are logged in!')
+        return redirect('store:index')
     else:
         if request.method == 'POST' or request.method == 'post':
             username = request.POST.get('username')
@@ -40,12 +43,15 @@ def CustomerLogin(request):
             customer = authenticate(request, username=username, password=password)
             if customer is not None:
                 login(request, customer)
-                return HttpResponse('You are logged in successfully!')
+                return redirect('store:index')
             else:
                 return HttpResponse('404')
             
     return render(request, 'account/login.html')
 
+def CustomerLogout(request):
+    logout(request)
+    return redirect('profiles:login')
 
 # Customers profile
 class ProfileView(TemplateView):
