@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView
 
 # product models
@@ -49,3 +49,26 @@ class ProductDetailView(DetailView):
 #         'photos': photos
 #     }
 #     return render(request, 'store/product.html', context)
+
+def about(request):
+    return render(request, 'store/about.html')
+
+class ProductistView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.all().order_by('-id')
+
+        context = {
+            'products': products,
+        }
+        return render(request, 'store/products.html', context)
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'post' or request.method == 'POST':
+            search = request.POST.get('search')
+            products = Product.objects.filter(title__icontains=search).order_by('-id')
+
+            context = {
+                'products': products
+            }
+            return render(request, 'store/products.html', context)
+

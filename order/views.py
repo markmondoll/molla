@@ -138,3 +138,38 @@ def decrease_cart(request, pk):
     else: 
         return redirect('store:index')
     
+def wishlist(request):
+    if request.user.is_authenticated:
+        carts = Cart.objects.filter(user=request.user, purchased=False)
+        orders = Order.objects.filter(user=request.user, ordered=False)
+        if carts.exists() and orders.exists():
+            order = orders[0]
+            coupon_form = CouponCodeFrom(request.POST)
+            if coupon_form.is_valid():
+                current_time = timezone.now()
+                code = coupon_form.cleaned_data.get('code')
+                coupon_obj = Coupon.objects.get(code=code, active=True)
+                if coupon_obj.valid_to >= current_time:
+                    get_discount = (coupon_obj.discount / 100) * order.get_totals()
+                    total_price_after_discount = order.get_totals() - get_discount
+                    request.session['discount_total'] = total_price_after_discount
+                    request.session['coupon_code'] = code 
+                    return redirect('order:cart')
+                else:
+                    coupon_obj.active = False
+                    coupon_obj.save()
+                    return redirect('order:cart')
+                
+            total_price_after_discount = request.session.get('discount_total')
+            coupon_code = request.session.get('coupon_code')
+            context = {
+                'carts': carts,
+                'order': order,
+                'coupon_form': coupon_form,
+                'coupon_code': coupon_code,
+                'total_price_after_discount': total_price_after_discount
+            }
+            return render(request, 'order/wishlist.html', context)
+    else:
+        return render(request, 'order/wishlist.html')
+

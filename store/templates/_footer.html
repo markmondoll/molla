@@ -1,3 +1,4 @@
+{% load theme %}
 {% load static %}
 
 <!-- Footer Section Begin -->
@@ -17,11 +18,9 @@
                         {% endfor %}
         
                         <div class="social-icons">
-                            <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                            <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                            <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-                            <a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+                        {% for link in social_links %}
+                            <a href="{{link.link}}" class="social-icon" target="_blank" title="{{link.title}}"><img src="{{link.logo.url}}" class="footer-logo" alt="{{link.title}}" width="25" height="25"></a>
+                        {%  endfor%}
                         </div><!-- End .soial-icons -->
                     </div><!-- End .widget about-widget -->
                 </div><!-- End .col-sm-6 col-lg-3 -->
@@ -31,9 +30,12 @@
                         <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
 
                         <ul class="widget-list">
-                            <li><a href="about.html">About Molla</a></li>
-                            <li><a href="#">How to shop on Molla</a></li>
-                            <li><a href="contact.html">Contact us</a></li>
+                            {% for info in settings %}
+                            {% if info.website_title %}
+                            <li><a href="{% url 'store:about' %}">About {{info.website_title}}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            <li><a href="{% url 'store:about' %}">Contact us</a></li>
                         </ul><!-- End .widget-list -->
                     </div><!-- End .widget -->
                 </div><!-- End .col-sm-6 col-lg-3 -->

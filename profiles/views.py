@@ -54,13 +54,44 @@ def CustomerLogout(request):
     return redirect('profiles:login')
 
 # Customers profile
+# class ProfileView(TemplateView):
+#     def get(self, request, *args, **kwargs):
+#         orders = Order.objects.filter(user=request.user, ordered=True)
+#         billing_address = BillingAddress.objects.get(user=request.user)
+#         billing_address_form = BillingAddressForm(instance=billing_address)
+
+#         profile_obj = Profile.objects.get(user=request.user)
+#         profile_form = ProfileForm(instance=profile_obj)
+
+#         context = {
+#             'orders': orders,
+#             'billing_address': billing_address_form,
+#             'profile_form': profile_form,
+#         }
+#         return render(request, 'account/profile.html', context)
+
+#     def post(self, request, *args, **kwargs):
+#         if request.method == 'POST' or request.method =='post':
+#             billing_address = BillingAddress.objects.get(user=request.user)
+#             billing_address_form = BillingAddressForm(request.POST, instance=billing_address)
+#             profile_obj = Profile.objects.get(user=request.user)
+#             profile_form = ProfileForm(request.POST, instance=profile_obj)
+#             if billing_address_form.is_valid() or profile_form.is_valid:
+#                 billing_address_form.save()
+#                 profile_form.save()
+#                 return redirect('profiles:profile')
+
 class ProfileView(TemplateView):
     def get(self, request, *args, **kwargs):
+        # Fetch orders
         orders = Order.objects.filter(user=request.user, ordered=True)
-        billing_address = BillingAddress.objects.get(user=request.user)
+        
+        # Fetch or create billing address
+        billing_address, created = BillingAddress.objects.get_or_create(user=request.user)
         billing_address_form = BillingAddressForm(instance=billing_address)
 
-        profile_obj = Profile.objects.get(user=request.user)
+        # Fetch or create profile
+        profile_obj, created = Profile.objects.get_or_create(user=request.user)
         profile_form = ProfileForm(instance=profile_obj)
 
         context = {
@@ -71,14 +102,25 @@ class ProfileView(TemplateView):
         return render(request, 'account/profile.html', context)
 
     def post(self, request, *args, **kwargs):
-        if request.method == 'POST' or request.method =='post':
-            billing_address = BillingAddress.objects.get(user=request.user)
+        if request.method == 'POST':
+            # Fetch or create billing address
+            billing_address, created = BillingAddress.objects.get_or_create(user=request.user)
             billing_address_form = BillingAddressForm(request.POST, instance=billing_address)
-            profile_obj = Profile.objects.get(user=request.user)
+
+            # Fetch or create profile
+            profile_obj, created = Profile.objects.get_or_create(user=request.user)
             profile_form = ProfileForm(request.POST, instance=profile_obj)
-            if billing_address_form.is_valid() or profile_form.is_valid:
+
+            # Save if forms are valid
+            if billing_address_form.is_valid() and profile_form.is_valid():
                 billing_address_form.save()
                 profile_form.save()
                 return redirect('profiles:profile')
+        
+        # In case the forms are not valid, you can re-render the page with errors
+        return render(request, 'profiles/profile.html', {
+            'billing_address': billing_address_form,
+            'profile_form': profile_form,
+        })
 
 

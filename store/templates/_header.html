@@ -1,6 +1,7 @@
 {% load category %}
 {% load cart_product %}
 {% load notification %}
+{% load theme %}
 {% load static %}
 
 <header class="header header-intro-clearance header-4">
@@ -19,13 +20,15 @@
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                     <form action="" method="post">
                         {% csrf_token %}
-                        <div class="header-search-wrapper search-wrapper-wide">
+                        <!-- <div class="header-search-wrapper search-wrapper-wide">
                             <label for="search" class="sr-only">Search</label>
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                             <input type="search" class="form-control" name="search" id="search" placeholder="Search product ..." required>
-                        </div><!-- End .header-search-wrapper -->
+                        </div> -->
+                        <!-- End .header-search-wrapper -->
                     </form>
-                </div><!-- End .header-search -->
+                </div>
+                <!-- End .header-search -->
             </div>
             <div class="header-right">
                 <ul class="top-menu">
@@ -56,7 +59,16 @@
                                 </div>
                             </li> -->
                             {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'profiles:logout' %}">Logout </a></li>
+                            <div class="nav-link">
+                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                    <div class="icon"><i class="fas fa-user"></i></div>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-content">
+                                        <li><a href="{% url 'profiles:profile' %}">Profile </a></li>
+                                        <li><a href="{% url 'profiles:logout' %}">Logout </a></li>
+                                    </div><!-- End .dropdown-menu -->
+                                </div>
                             {% else %}
                             <li><a href="{% url 'profiles:login' %}">Sign in </a> / <a href="{% url 'profiles:register' %}"> Sign up</a></li>
                             {% endif %}
@@ -114,7 +126,7 @@
                 <nav class="main-nav">
                     <ul class="menu sf-arrows">
                         <li><a href="{% url 'store:index' %}" class="sf-with-ul">Home</a></li>
-                        <li><a href="{% url 'store:index' %}" class="sf-with-ul">Product</a></li>
+                        <li><a href="{% url 'store:product' %}" class="sf-with-ul">Product</a></li>
                         <li><a href="{% url 'order:cart' %}" class="sf-with-ul">Cart</a></li>
                         <!-- <li>
                             <a href="#" class="sf-with-ul">Pages</a>
@@ -157,10 +169,10 @@
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .compare-dropdown -->
                 <div class="wishlist">
-                    <a href="wishlist.html" title="Wishlist">
+                    <a href="{% url 'order:wishlist' %}" title="Wishlist">
                         <div class="icon">
                             <i class="icon-heart-o"></i>
-                            <span class="wishlist-count badge">3</span>
+                            <span class="wishlist-count badge">0</span>
                         </div>
                         <p>Wishlist</p>
                     </a>

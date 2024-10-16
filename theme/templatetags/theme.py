@@ -5,9 +5,10 @@ register = template.Library()
 
 @register.filter
 def settings(request):
-    setting = Setting.objects.all()
+    info = Setting.objects.all()
+    return info
 
 @register.filter
 def social_links(request):
-    setting = SocialLink.objects.all()
-
+    link = SocialLink.objects.filter(is_active=True)
+    return link
