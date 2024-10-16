@@ -31,7 +31,7 @@ def add_to_cart(request, pk):
                 order_item[0].save()
                 message = f"Quantity updated"
                 SendNotification(request.user, message)
-                return redirect('store:index')
+                return redirect('store:product')
             else:
                 size = request.POST.get('size')
                 color = request.POST.get('color')
@@ -40,12 +40,12 @@ def add_to_cart(request, pk):
                 order.order_items.add(order_item[0])
                 message = f"Product added to your cart"
                 SendNotification(request.user, message)
-                return redirect ('store:index')
+                return redirect ('store:product')
         else:
             order = Order(user=request.user)
             order.save()
             order.order_items.add(order_item[0])
-            return redirect ('store:index')
+            return redirect ('store:product')
     else:
         return redirect('profiles:login')
 

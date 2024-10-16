@@ -20,11 +20,11 @@
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                     <form action="" method="post">
                         {% csrf_token %}
-                        <!-- <div class="header-search-wrapper search-wrapper-wide">
+                        <div class="header-search-wrapper search-wrapper-wide">
                             <label for="search" class="sr-only">Search</label>
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                             <input type="search" class="form-control" name="search" id="search" placeholder="Search product ..." required>
-                        </div> -->
+                        </div>
                         <!-- End .header-search-wrapper -->
                     </form>
                 </div>
@@ -95,14 +95,14 @@
                         {% endif %}
                     {%  endfor%}
                 </a>
-                <div class="dropdown category-dropdown">
+                <!-- <div class="dropdown category-dropdown">
                     <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
                         Browse Categories <i class="icon-angle-down"></i>
                     </a>
 
                     <div class="dropdown-menu">
-                        <nav class="side-nav">
-                            <ul class="menu-vertical sf-arrows">
+                        <nav class="side-nav"> -->
+                            <!-- <ul class="menu-vertical">
                                 {% for cat in request.user|category %}
                                 {% if not cat.children.all %}
                                 <li class="item-lead"><a href="#">{{cat.title}}</a></li>
@@ -116,18 +116,23 @@
                                 </li>
                                 {% endif %}
                                 {% endfor %}
-                            </ul><!-- End .menu-vertical -->
-                        </nav><!-- End .side-nav -->
-                    </div><!-- End .dropdown-menu -->
-                </div><!-- End .category-dropdown -->
-            </div><!-- End .header-left -->
+                            </ul> -->
+                            <!-- End .menu-vertical -->
+                        <!-- </nav> -->
+                        <!-- End .side-nav -->
+                    <!-- </div> -->
+                    <!-- End .dropdown-menu -->
+                <!-- </div> -->
+                <!-- End .category-dropdown -->
+            </div>
+            <!-- End .header-left -->
 
             <div class="header-center">
                 <nav class="main-nav">
                     <ul class="menu sf-arrows">
-                        <li><a href="{% url 'store:index' %}" class="sf-with-ul">Home</a></li>
-                        <li><a href="{% url 'store:product' %}" class="sf-with-ul">Product</a></li>
-                        <li><a href="{% url 'order:cart' %}" class="sf-with-ul">Cart</a></li>
+                        <li><a href="{% url 'store:index' %}">Home</a></li>
+                        <li><a href="{% url 'store:product' %}">Product</a></li>
+                        <li><a href="{% url 'order:cart' %}">Cart</a></li>
                         <!-- <li>
                             <a href="#" class="sf-with-ul">Pages</a>
                             <ul>
@@ -141,16 +146,17 @@
                 </nav><!-- End .main-nav -->
             </div><!-- End .header-center -->
 
+            
             <div class="header-right">
-                <div class="dropdown compare-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
+                <!-- <div class="dropdown compare-dropdown"> -->
+                    <!-- <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
                         <div class="icon">
                             <i class="icon-random"></i>
                         </div>
                         <p>Compare</p>
-                    </a>
+                    </a> -->
 
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <!-- <div class="dropdown-menu dropdown-menu-right">
                         <ul class="compare-products">
                             <li class="compare-product">
                                 <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
@@ -166,9 +172,11 @@
                             <a href="#" class="action-link">Clear All</a>
                             <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
                         </div>
-                    </div><!-- End .dropdown-menu -->
-                </div><!-- End .compare-dropdown -->
-                <div class="wishlist">
+                    </div> -->
+                    <!-- End .dropdown-menu -->
+                <!-- </div> -->
+                <!-- End .compare-dropdown -->
+                <!-- <div class="wishlist">
                     <a href="{% url 'order:wishlist' %}" title="Wishlist">
                         <div class="icon">
                             <i class="icon-heart-o"></i>
@@ -176,7 +184,8 @@
                         </div>
                         <p>Wishlist</p>
                     </a>
-                </div><!-- End .compare-dropdown -->
+                </div> -->
+                <!-- End .compare-dropdown -->
 
                 <!-- Cart dropdown starts here -->
                 <div class="dropdown cart-dropdown">

@@ -1,0 +1,81 @@
+<main class="main">
+    <!-- New Arrivals Section -->
+    <div class="container new-arrivals">
+        <div class="heading heading-flex mb-3">
+            <div class="heading-left">
+                <h2 class="title">New Arrivals</h2><!-- End .title -->
+            </div><!-- End .heading-left -->
+            z
+        </div><!-- End .heading -->
+
+        <div class="tab-content tab-content-carousel just-action-icons-sm">
+            <div class="tab-pane p-0 fade show active" id="new-all-tab" role="tabpanel" aria-labelledby="new-all-link">
+                <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                    data-owl-options='{
+                        "nav": true, 
+                        "dots": true,
+                        "margin": 20,
+                        "loop": false,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "480": {
+                                "items":2
+                            },
+                            "768": {
+                                "items":3
+                            },
+                            "992": {
+                                "items":4
+                            },
+                            "1200": {
+                                "items":5
+                            }
+                        }
+                    }'>
+                    {% for product in products %}
+                    <div class="product product-2">
+                        <figure class="product-media">
+                            <!-- <span class="product-label label-circle label-top">Top</span> -->
+                            <a href="{{product.get_product_url}}"><img src="{{product.image.url}}" alt="Product image" class="product-image"></a>
+
+                            <!-- <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a> -->
+                            <!-- </div>End .product-action -->
+
+                            <div class="product-action">
+                                <a href="{{product.get_product_url}}" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                <a href="{{product.get_product_url}}" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
+                            </div><!-- End .product-action -->
+                        </figure><!-- End .product-media -->
+
+                        <div class="product-body">
+                            <!-- <div class="product-cat"> -->
+                                <!-- <a href="#">{{product.category}}</a> -->
+                            <!-- </div>End .product-cat -->
+                            <h3 class="product-title"><a href="{{product.get_product_url}}">{{product.title}}</a></h3>
+                            <!-- End .product-title -->
+                            <div class="product-price">
+                                $ {{product.price}}
+                            </div>
+                            {% if product.old_price %}
+                            <div class="product-price">
+                                <del>$ {{product.old_price}}</del>
+                            </div>
+                            {% endif %}
+                            <!-- End .product-price -->
+                            <!-- <div class="ratings-container"> -->
+                                <!-- <div class="ratings"> -->
+                                    <!-- <div class="ratings-val" style="width: 100%;"></div>End .ratings-val -->
+                                <!-- </div>End .ratings -->
+                                <!-- <span class="ratings-text">( 4 Reviews )</span> -->
+                            <!-- </div>End .rating-container -->
+                        </div><!-- End .product-body -->
+                    </div><!-- End .product -->
+                    {% endfor %}
+                </div><!-- End .owl-carousel -->
+            </div><!-- .End .tab-pane -->
+        </div><!-- End .tab-content -->
+    </div><!-- End .container -->
+</main><!-- End .main -->
