@@ -4,5 +4,6 @@ Django==5.1
 django-crispy-forms==2.3
 pillow==10.4.0
 sqlparse==0.5.1
+sslcommerz-python==0.0.7
 typing_extensions==4.12.2
 wrapt==1.11.2
